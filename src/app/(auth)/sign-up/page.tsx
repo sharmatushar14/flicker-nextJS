@@ -1,16 +1,16 @@
-'user client';
+'use client';
 import * as z from 'zod'
 import { useToast } from '@/components/ui/use-toast';
 import { signUpSchema } from '@/schemas/signUpSchema';
-import { zodResolver } from '@hookform/resolvers/zod/src/zod.js';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useDebounce } from '@uidotdev/usehooks';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
-import { Form, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { AxiosError } from 'axios';
 import axios from 'axios';
 import { ApiResponse } from '@/types/ApiRespone';
-import { FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
