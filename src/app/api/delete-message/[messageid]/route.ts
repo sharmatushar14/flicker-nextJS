@@ -3,6 +3,11 @@ import { User, getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/options";
 import UserModel from "@/model/User";
 
+//IMPORTANT NOTE:
+//In your Next.js API route using NextAuth.js, the correct method to get the current user's session is getServerSession when working with server-side code. 
+//The useSession hook is intended for client-side usage. 
+//This distinction is crucial because useSession relies on React hooks and can only be used within React components, not in API routes or server-side code.
+
 export async function DELETE(request: Request,
     {params}: {params: {messageid: string}}
 ){
