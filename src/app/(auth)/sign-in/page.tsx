@@ -1,8 +1,8 @@
-'user client';
+'use client';
 
 import * as z from 'zod'
 import { useToast } from '@/components/ui/use-toast';
-import { zodResolver } from '@hookform/resolvers/zod/src/zod.js';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { Form, useForm } from 'react-hook-form';
 import { FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
