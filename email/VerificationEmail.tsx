@@ -16,7 +16,7 @@ import {
   }
   //To define the type of Verification Email Props
   
-  export default function VerificationEmail({ username, otp }: VerificationEmailProps) {
+  export default function VerificationEmail({ otp, username }: VerificationEmailProps) {
     return (
       <Html lang="en" dir="ltr">
         <Head>

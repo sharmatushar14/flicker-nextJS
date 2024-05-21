@@ -1,3 +1,4 @@
+'use client'
 import { useToast } from '@/components/ui/use-toast'
 import { Message } from '@/model/User'
 import { acceptMessageSchema } from '@/schemas/acceptMessageSchema'

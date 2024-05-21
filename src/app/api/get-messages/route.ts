@@ -24,12 +24,12 @@ export async function GET(request: Request){
             {$match: {_id: userId}},
             {$unwind: '$messages'},
             {$sort: { 'messages.CreatedAt': -1}},
-            {$group: {_id:" $_id", messages: { $push: '$messages'}}}
+            {$group: {_id:"$_id", messages: { $push: '$messages'}}}
         ]).exec()
 
-        if(!user || user.length==0){
+        if(!user || user.length===0){
             return Response.json(
-                { message: 'User not found', success: false },
+                { message: 'No messages found!', success: false },
                 { status: 404 }
            );
         }
