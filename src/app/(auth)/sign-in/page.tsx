@@ -79,18 +79,6 @@ function SignInForm() {
                       </FormItem>
                     )}
                 />
-                <FormField
-                name="password"
-                control={form.control}
-                render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <Input {...field} name="email" />
-                  <p className='text-muted text-gray-400 text-sm'>We will send you a verification code</p>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
               <FormField
               name="password"
               control={form.control}
@@ -103,7 +91,7 @@ function SignInForm() {
               )}
             />
             <Button type="submit" className='w-full'>
-              SignIn
+              Sign In
             </Button>
             </form>
         </Form>
