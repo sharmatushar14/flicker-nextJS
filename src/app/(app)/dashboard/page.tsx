@@ -14,7 +14,6 @@ import { Switch } from '@/components/ui/switch'
 import { Loader2, RefreshCcw } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 import MessageCard from '@/components/MessageCard'
-import { log } from 'console'
 
 const UserDashboard = () => {
   const [messages, setMessages] = useState<Message[]>([])
@@ -27,25 +26,21 @@ const UserDashboard = () => {
     setMessages(messages.filter((message)=>messageId !== message._id))
   }
 
-  //Now finding the current user's session using NextAuth useSession function
-  const {data:session} = useSession();
-
-  //Forming form which incude many fields including register etc, Refer NextAuth Documentation
+  const {data: session} = useSession();
 
   const form =  useForm({
     resolver: zodResolver(acceptMessageSchema)
   })
 
   const {register, watch, setValue} = form;
-  const acceptMessages = watch('acceptMessages') //Will link it to using Form in the UI part
+  const acceptMessages = watch('acceptMessages')
 
   const fetchAcceptMessages = useCallback(async()=>{
-    //useCallback will return a memoized version of the callback that only changes if one of the inputs has changed.
+    console.log('Fetching accept messages...');
     setIsSwitchingLoading(true);
     try {
         const response = await axios.get('/api/accept-messages');
-        console.log(response);
-        
+        console.log('Fetch accept messages response:', response);
         setValue('acceptMessages', response.data.isAcceptingMessages);
     } catch (error) {
         const axiosError = error as AxiosError<ApiResponse>
@@ -61,10 +56,12 @@ const UserDashboard = () => {
   }, [setValue, toast]);
 
   const fetchMessages = useCallback(async(refresh: boolean=false)=>{
+    console.log('Fetching messages...');
     setIsLoading(true)
     setIsSwitchingLoading(true)
     try {
         const response = await axios.get<ApiResponse>('/api/get-messages');
+        console.log('Fetch messages response:', response);
         setMessages(response.data.messages || []);
         if(refresh){
             toast({
@@ -86,27 +83,30 @@ const UserDashboard = () => {
     }
   }, [setIsLoading, setMessages])
 
-  //Fetch initial state from the server
-  //useEffect always render for the very first time even w/o changing of the dependency array variables
   useEffect(()=>{
-    if(!session || !session.user) return
+    console.log('Running useEffect...');
+    if(!session || !session.user) {
+      console.log('No session or user found');
+      return;
+    }
     fetchAcceptMessages();
     fetchMessages();
   }, [session, setValue, fetchAcceptMessages, fetchMessages]);
 
-  //Handle Switch Changes
   const handleSwitchChange = async ()=>{
+    console.log('Handling switch change...');
     try {
-        const response = await axios.post<ApiResponse>('/api/accept-messages', {
-          acceptMessages: !acceptMessages,
+        const response= await axios.post<ApiResponse>('/api/accept-messages', {
+          acceptMessages: !acceptMessages
         });
         setValue('acceptMessages', !acceptMessages);
-        console.log(response)
+        console.log('Switch change response:', acceptMessages);
         toast({
             title: response.data.message,
             variant: 'default',
         })
     } catch (error) {
+        console.log('Error during switch change:', error);
         const axiosError = error as AxiosError<ApiResponse>;
         toast({
           title: 'Error',
@@ -118,13 +118,11 @@ const UserDashboard = () => {
     }
   }
 
-  //One more check for if not having the session
   if(!session || !session.user){
     return <div></div>
   }
 
   const {username} = session.user as User;
-  //Study more about how to find this baseUrl
   const baseUrl = `${window.location.protocol}//${window.location.host}`;
   const profileUrl = `${baseUrl}/u/${username}`;
 
@@ -135,7 +133,6 @@ const UserDashboard = () => {
       description: 'Profile URL has been copied to clipboard!'
     })
   }
-
 
   return (
     <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">
@@ -182,7 +179,7 @@ const UserDashboard = () => {
       )}
     </Button>
     <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
-      {messages.length>0 ? (
+      {messages.length > 0 ? (
         messages.map((msg, idx)=>(
           <MessageCard key={msg._id}
            message={msg}

@@ -24,20 +24,20 @@ export async function POST(request: Request){
     }
 
     const userId = user._id;
-    const {acceptingMessages} = await request.json();
+    const {acceptMessages} = await request.json();
+    console.log('Received acceptMessages:', acceptMessages);
 
     try {
         //Update the user's message acceptance status
         const updatedUser = await UserModel.findByIdAndUpdate(
             userId,
             {
-                isAcceptingMessages: acceptingMessages
+                isAcceptingMessages : acceptMessages
             },
             {
-                new: true //Will return the updatedUser
+                new: true, //Will return the updatedUser
             }
         )
-        
         if(!updatedUser){
            // User not found
       return Response.json(
@@ -49,7 +49,7 @@ export async function POST(request: Request){
       ); 
         }
 
-        console.log(updatedUser)
+        console.log("Here:", updatedUser)
 
         //Succefully updated messages acceptance status
         return Response.json({
