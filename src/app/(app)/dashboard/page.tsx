@@ -14,6 +14,7 @@ import { Switch } from '@/components/ui/switch'
 import { Loader2, RefreshCcw } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 import MessageCard from '@/components/MessageCard'
+import { log } from 'console'
 
 const UserDashboard = () => {
   const [messages, setMessages] = useState<Message[]>([])
@@ -43,6 +44,8 @@ const UserDashboard = () => {
     setIsSwitchingLoading(true);
     try {
         const response = await axios.get('/api/accept-messages');
+        console.log(response);
+        
         setValue('acceptMessages', response.data.isAcceptingMessages);
     } catch (error) {
         const axiosError = error as AxiosError<ApiResponse>
@@ -61,7 +64,7 @@ const UserDashboard = () => {
     setIsLoading(true)
     setIsSwitchingLoading(true)
     try {
-        const response = await axios.get<ApiResponse>('api/get-messages');
+        const response = await axios.get<ApiResponse>('/api/get-messages');
         setMessages(response.data.messages || []);
         if(refresh){
             toast({
@@ -72,16 +75,16 @@ const UserDashboard = () => {
     } catch (error) {
         const axiosError = error as AxiosError<ApiResponse>;
         toast({
-          title: 'Error',
+          title: 'Refreshed Messages',
           description:
           axiosError.response?.data.message ?? 'Failed to fetch messages',
-          variant: 'destructive',
+          variant: 'default',
         });
     } finally {
         setIsLoading(false);
         setIsSwitchingLoading(false)
     }
-  }, [setIsLoading, setMessages, toast])
+  }, [setIsLoading, setMessages])
 
   //Fetch initial state from the server
   //useEffect always render for the very first time even w/o changing of the dependency array variables
@@ -89,15 +92,16 @@ const UserDashboard = () => {
     if(!session || !session.user) return
     fetchAcceptMessages();
     fetchMessages();
-  }, [session, setValue, toast, fetchAcceptMessages, fetchMessages]);
+  }, [session, setValue, fetchAcceptMessages, fetchMessages]);
 
   //Handle Switch Changes
   const handleSwitchChange = async ()=>{
     try {
-        const response = await axios.post<ApiResponse>('api/accept-messages', {
-            acceptMessages: !acceptMessages,
+        const response = await axios.post<ApiResponse>('/api/accept-messages', {
+          acceptMessages: !acceptMessages,
         });
         setValue('acceptMessages', !acceptMessages);
+        console.log(response)
         toast({
             title: response.data.message,
             variant: 'default',

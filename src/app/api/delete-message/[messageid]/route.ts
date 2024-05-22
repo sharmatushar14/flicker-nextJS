@@ -2,6 +2,7 @@ import dbConnect from "@/lib/dbConnect"
 import { User, getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/options";
 import UserModel from "@/model/User";
+import { NextResponse } from "next/server";
 
 //IMPORTANT NOTE:
 //In your Next.js API route using NextAuth.js, the correct method to get the current user's session is getServerSession when working with server-side code. 
@@ -30,12 +31,23 @@ export async function DELETE(request: Request,
             //all instances of a value or values that match a specified condition
 
         )
+        console.log(updatedResult);
+        
         if(updatedResult.modifiedCount===0){
             return Response.json(
                 {message: "Message not found or already deleted", success: false},
                 {status: 404}
             )       
         }
+
+        //Mistake was: Ensure you return a `Response` or a `NextResponse` in all branches of your handler.
+        return NextResponse.json({
+            message: "Message Deleted Successfully",
+            success: true
+        }, {
+            status: 200
+        })
+
     } catch (error) {
         console.error('Error deleting the message:', error)
         return Response.json(

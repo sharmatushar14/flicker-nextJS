@@ -37,7 +37,7 @@ export async function POST(request: Request){
                 new: true //Will return the updatedUser
             }
         )
-
+        
         if(!updatedUser){
            // User not found
       return Response.json(
@@ -48,6 +48,8 @@ export async function POST(request: Request){
         { status: 404 }
       ); 
         }
+
+        console.log(updatedUser)
 
         //Succefully updated messages acceptance status
         return Response.json({
