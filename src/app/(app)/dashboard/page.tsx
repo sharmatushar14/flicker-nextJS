@@ -25,7 +25,8 @@ const UserDashboard = () => {
   const handleDeleteMessage = (messageId: string)=>{
     setMessages(messages.filter((message)=>messageId !== message._id))
   }
-
+  
+  //Now finding the current user's session using NextAuth useSession function
   const {data: session} = useSession();
 
   const form =  useForm({
@@ -36,7 +37,7 @@ const UserDashboard = () => {
   const acceptMessages = watch('acceptMessages')
 
   const fetchAcceptMessages = useCallback(async()=>{
-    console.log('Fetching accept messages...');
+     //useCallback will return a memoized version of the callback that only changes if one of the inputs has changed.
     setIsSwitchingLoading(true);
     try {
         const response = await axios.get('/api/accept-messages');
@@ -56,7 +57,6 @@ const UserDashboard = () => {
   }, [setValue, toast]);
 
   const fetchMessages = useCallback(async(refresh: boolean=false)=>{
-    console.log('Fetching messages...');
     setIsLoading(true)
     setIsSwitchingLoading(true)
     try {
@@ -83,8 +83,10 @@ const UserDashboard = () => {
     }
   }, [setIsLoading, setMessages])
 
+
+  //Fetch initial state from the server
+  //useEffect always render for the very first time even w/o changing of the dependency array variables
   useEffect(()=>{
-    console.log('Running useEffect...');
     if(!session || !session.user) {
       console.log('No session or user found');
       return;
@@ -94,7 +96,7 @@ const UserDashboard = () => {
   }, [session, setValue, fetchAcceptMessages, fetchMessages]);
 
   const handleSwitchChange = async ()=>{
-    console.log('Handling switch change...');
+ 
     try {
         const response= await axios.post<ApiResponse>('/api/accept-messages', {
           acceptMessages: !acceptMessages
@@ -118,11 +120,13 @@ const UserDashboard = () => {
     }
   }
 
+  //One more check for if not having the session
   if(!session || !session.user){
-    return <div></div>
+    return <div>Just hold a sec...</div>
   }
 
   const {username} = session.user as User;
+  ////Study more about how to find this baseUrl
   const baseUrl = `${window.location.protocol}//${window.location.host}`;
   const profileUrl = `${baseUrl}/u/${username}`;
 
@@ -195,3 +199,9 @@ const UserDashboard = () => {
 }
 
 export default UserDashboard
+
+//Why the const value Changes Properly
+// The acceptMessages value is correctly toggled and updated because:
+
+// The watch function keeps track of the form field value and updates the component when it changes.
+// The setValue function explicitly updates the form field value when the switch is toggled and the server responds successfully.

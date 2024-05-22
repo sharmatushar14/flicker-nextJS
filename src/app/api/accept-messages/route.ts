@@ -24,7 +24,11 @@ export async function POST(request: Request){
     }
 
     const userId = user._id;
-    const {acceptMessages} = await request.json();
+    const {acceptMessages} = await request.json(); 
+    //Important Note: backend was not updating the acceptmessages correcttly on the database, it was only changing
+    //on the frontend, the issue was while doing await request.json(), at frontend I was passing 'acceptMessages' in the body of
+    //axios post request but at backend I was doing const {accceptingMessages} = await request.json(), which was indeed
+    //not matching. Hence always match the variable/const name while destructing as object over backend
     console.log('Received acceptMessages:', acceptMessages);
 
     try {
