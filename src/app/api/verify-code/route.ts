@@ -29,7 +29,7 @@ export async function POST(request: Request){
             await user.save();
 
             return Response.json(
-                { success: true, message: 'Account verified successfully' },
+                { success: true, message: 'Account verified successfully', user},
                 { status: 200 }
               );
         }

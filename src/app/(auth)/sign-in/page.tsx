@@ -101,6 +101,11 @@ function SignInForm() {
                 <Link href="/sign-up" className="text-blue-600 hover:text-blue-800">
                     Sign Up
                 </Link>
+                <div className='text-center'>
+                   <Link href="/forgot-password" className="text-blue-600 hover:text-blue-800">
+                      Forgot Password
+                    </Link>
+                </div>
             </p>
         </div>
      </div>

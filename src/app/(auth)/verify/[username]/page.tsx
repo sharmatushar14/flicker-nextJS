@@ -35,8 +35,13 @@ function VerifyAccount() {
               title: "Success",
               description: response.data.message
             })
-
-            router.replace('/sign-in')
+            const isPasswordChanging = response.data.user.isPasswordChanging;
+            console.log(isPasswordChanging);  
+            if(isPasswordChanging){
+              router.replace('/new-password')
+            } else {
+              router.replace('/sign-in')
+            }
         } catch (error) {
            const axiosError = error as AxiosError<ApiResponse>;
            toast({
