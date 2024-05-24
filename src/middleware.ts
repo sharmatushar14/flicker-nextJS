@@ -2,13 +2,16 @@ import { NextResponse, NextRequest } from 'next/server'
 import { getToken } from 'next-auth/jwt'
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/sign-in', '/sign-up', '/', '/verify/:path*', '/new-password'],
+  matcher: ['/dashboard/:path*', '/sign-in', '/sign-up', '/', '/verify/:path*', '/new-password/:path*'],
 };
  
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
     const token = await getToken({req: request});
     const isPasswordChanging = token?.isPasswordChanging;
+    console.log(token);
+    
+    console.log(isPasswordChanging)
     const url = request.nextUrl
 
     //Redirect to the dashboard if the user is already authenticated
@@ -22,7 +25,11 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL('/dashboard', request.url))
     }
 
-    if(!token && (url.pathname.startsWith('/dashboard')|| url.pathname.startsWith('/dashboard'))){
+    if(!isPasswordChanging && url.pathname.startsWith('/new-password')){
+        return NextResponse.redirect(new URL('/sign-in', request.url))
+    }
+
+    if(!token && url.pathname.startsWith('/dashboard')){
         return NextResponse.redirect(new URL('/sign-in', request.url))
     }
 

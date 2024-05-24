@@ -96,7 +96,6 @@ function SignInForm() {
             </form>
         </Form>
         <div className='text-center mt-4'>
-            <p>
                 New here, let me get your wristband to the party!{' '}
                 <Link href="/sign-up" className="text-blue-600 hover:text-blue-800">
                     Sign Up
@@ -106,7 +105,6 @@ function SignInForm() {
                       Forgot Password
                     </Link>
                 </div>
-            </p>
         </div>
      </div>
   </div>

@@ -59,16 +59,21 @@ export default function InputForm() {
 }
 
   return (
+    <div className="flex justify-center items-center min-h-screen bg-gray-800">
+    <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
+    <div className="text-center">
+    <h1 className="text-2xl font-extrabold tracking-tight lg:text-3xl mb-6">
+           Enter your mail
+          </h1>
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="Enter your mail" {...field} 
+                <Input placeholder="Enter your mail here" {...field} 
                 onChange={(e) => {
                             field.onChange(e);
                             setEmail(e.target.value);
@@ -76,15 +81,18 @@ export default function InputForm() {
                             />
               </FormControl>
               <FormDescription>
-                Kindly write your email to reset your password.
+                Kindly provide your email to reset your password.
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit">Verify</Button>
       </form>
     </Form>
+    </div>
+    </div>
+    </div>
   )
 }
 
