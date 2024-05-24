@@ -28,7 +28,7 @@ export async function POST(request: Request){
         user.verifyCodeExpiry = new Date(Date.now()+360000);
         user.isPasswordChanging=true;
         await user.save();
-        console.log(user)
+        // console.log(user)
         const emailSend = await sendVerificationEmail(user.email, user.verifyCode, user.username);
 
         if(!emailSend.success){

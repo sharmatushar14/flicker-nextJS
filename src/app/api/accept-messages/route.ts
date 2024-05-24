@@ -29,7 +29,7 @@ export async function POST(request: Request){
     //on the frontend, the issue was while doing await request.json(), at frontend I was passing 'acceptMessages' in the body of
     //axios post request but at backend I was doing const {accceptingMessages} = await request.json(), which was indeed
     //not matching. Hence always match the variable/const name while destructing as object over backend
-    console.log('Received acceptMessages:', acceptMessages);
+    // console.log('Received acceptMessages:', acceptMessages);
 
     try {
         //Update the user's message acceptance status
@@ -53,7 +53,7 @@ export async function POST(request: Request){
       ); 
         }
 
-        console.log("Here:", updatedUser)
+        // console.log("Here:", updatedUser)
 
         //Succefully updated messages acceptance status
         return Response.json({

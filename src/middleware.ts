@@ -8,10 +8,6 @@ export const config = {
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
     const token = await getToken({req: request});
-    const isPasswordChanging = token?.isPasswordChanging;
-    console.log(token);
-    
-    console.log(isPasswordChanging)
     const url = request.nextUrl
 
     //Redirect to the dashboard if the user is already authenticated

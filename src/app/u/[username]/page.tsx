@@ -59,7 +59,7 @@ const UserPage = () => {
             form.reset({...form.getValues(), content: ''})
         } catch (error) {
             const axiosError =  error as AxiosError<ApiResponse>
-            console.log(axiosError);
+            // console.log(axiosError);
             toast({
                 title: 'Error',
                 description: axiosError.response?.data.message ?? 'Failed to send the message',

@@ -6,19 +6,10 @@ import { authOptions } from "../auth/[...nextauth]/options";
 
 export async function POST(request: Request) {
     const session = await getServerSession(authOptions);
-
-    const user: User = session?.user as User
-
-    if(!session || !user){
-        return Response.json(
-            { success: false, message: 'Not authenticated' },
-            { status: 401 }
-          );
-    }
   
     await dbConnect();
-    const {username, newPassword, newPasswordConfirm} = await request.json();
-    console.log(username, newPassword, newPasswordConfirm)
+    const {username, newPassword, newPasswordConfirm, verifyCode} = await request.json();
+
     const decodedUsername = decodeURIComponent(username);
     try {
         const user = await UserModel.findOne({username: decodedUsername});
@@ -42,10 +33,26 @@ export async function POST(request: Request) {
                 status: 402
             })
         }
+        if(user.isPasswordChanging===false){
+            return Response.json({
+                message: "Oops, can't help to change your password, try again!",
+                success: false
+            }, {
+                status: 404 
+            })
+        }
+        if(verifyCode!==user.verifyCode){
+            return Response.json({
+                message:"Sorry! You are not authenticated to change this account's password",
+                success: false
+            }, {
+                status: 404
+            })
+        }
 
         const hashedPassword = await bcrypt.hash(newPassword, 10);
-
         user.password = hashedPassword;
+        user.isPasswordChanging=false;
         user.save();
 
         return Response.json({

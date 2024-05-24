@@ -30,16 +30,15 @@ function VerifyAccount() {
               username: params.username,
               code: data.code,
             }) 
-            console.log(response)
             toast({
               title: "Success",
               description: response.data.message
             })
             let isPasswordChanging = response.data.user.isPasswordChanging;
             const username = response.data.user.username;
-            console.log(isPasswordChanging);  
+            const verifyCode = response.data.user.verifyCode  
             if(isPasswordChanging){
-              router.replace(`/new-password/${username}`)
+              router.replace(`/new-password/${username}/${verifyCode}`)
             } else {
               router.replace('/sign-in')  
             }

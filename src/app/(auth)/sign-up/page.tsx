@@ -42,7 +42,7 @@ function SignUpForm() {
                 setUsernameMessage(''); //Reset message
                 try {
                     const response = await axios.get<ApiResponse>(`api/check-username-unique?username=${debouncedUsername}`)
-                    console.log(response)
+                    // console.log(response)
                     setUsernameMessage(response.data.message)
                 } catch (error) {
                     const axiosError = error as AxiosError<ApiResponse>;

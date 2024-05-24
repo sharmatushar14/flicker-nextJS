@@ -31,7 +31,7 @@ export async function DELETE(request: Request,
             //all instances of a value or values that match a specified condition
 
         )
-        console.log(updatedResult);
+        // console.log(updatedResult);
         
         if(updatedResult.modifiedCount===0){
             return Response.json(

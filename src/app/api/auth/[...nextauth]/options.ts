@@ -51,9 +51,7 @@ export const authOptions: NextAuthOptions = {
                 token.isVerified = user.isVerified;
                 token.isAcceptingMessages = user.isAcceptingMessages;
                 token.username = user.username;
-                token.isPasswordChanging = user.isPasswordChanging;
             }
-            console.log(token);
             
             return token; //Saving user's info in the token so that we dont everytime to have to do the expensive database calls 
         },
@@ -63,7 +61,6 @@ export const authOptions: NextAuthOptions = {
                 session.user.isVerified = token.isVerified
                 session.user.isAcceptingMessages = token.isAcceptingMessages
                 session.user.username = token.username
-                token.isPasswordChanging = token.isPasswordChanging;
             }
             return session
         }

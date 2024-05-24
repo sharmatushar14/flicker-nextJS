@@ -43,10 +43,8 @@ export default function InputForm() {
         const response = await axios.post('/api/forgot-password', {
           email
         })
-        console.log(response);
         const username = response.data.user.username
         const flag= response.data.user.isPasswordChanging;
-        console.log(username, flag)
         router.replace(`/verify/${username}`)
     } catch (error) {
         const axiosError = error as AxiosError<ApiResponse>

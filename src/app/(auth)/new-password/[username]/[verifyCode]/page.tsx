@@ -16,18 +16,19 @@ import { ApiResponse } from '@/types/ApiRespone';
 
 const NewPassword = () => {
   const router = useRouter();
-  const params = useParams<{username:string}>()
+  const params = useParams<{username:string, verifyCode: string}>()
   const {toast} = useToast();
   const form = useForm<z.infer<typeof passwordChangeSchema>>({
     resolver: zodResolver(passwordChangeSchema)
   })
-  const username = params.username;
-  const onSubmit= async (data: z.infer<typeof passwordChangeSchema>)=>{
+     const {username, verifyCode}= params
+
+     const onSubmit= async (data: z.infer<typeof passwordChangeSchema>)=>{
      try {
       //The issue in your code snippet lies in the way you are passing the username along with the form data to the server in the axios.post request. 
       //The username should be included in the data object that is being sent to the server
         const response = await axios.post(`/api/new-password`, {
-          ...data, username: username
+          ...data, username: username, verifyCode: verifyCode 
         }
         )
         // console.log(response);
