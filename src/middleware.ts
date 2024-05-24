@@ -25,9 +25,10 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL('/dashboard', request.url))
     }
 
-    if(!isPasswordChanging && url.pathname.startsWith('/new-password')){
-        return NextResponse.redirect(new URL('/sign-in', request.url))
-    }
+//    Only allow access to /new-password if isPasswordChanging is true
+//    if (url.pathname.startsWith('/new-password') && !token) {
+//     return NextResponse.redirect(new URL('/sign-in', request.url));
+//   }
 
     if(!token && url.pathname.startsWith('/dashboard')){
         return NextResponse.redirect(new URL('/sign-in', request.url))

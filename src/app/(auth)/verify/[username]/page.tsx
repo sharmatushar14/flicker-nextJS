@@ -39,10 +39,9 @@ function VerifyAccount() {
             const username = response.data.user.username;
             console.log(isPasswordChanging);  
             if(isPasswordChanging){
-              isPasswordChanging=false;
               router.replace(`/new-password/${username}`)
             } else {
-              router.replace('/sign-in')
+              router.replace('/sign-in')  
             }
         } catch (error) {
            const axiosError = error as AxiosError<ApiResponse>;
